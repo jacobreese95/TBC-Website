@@ -1,0 +1,331 @@
+/* Temple Baptist Church Wichita — public site */
+:root {
+  --teal: #4cb8b9;
+  --teal-dark: #3a9a9b;
+  --blue: #7bafdd;
+  --text: #2f3a45;
+  --muted: #6b7c8f;
+  --bg: #f6f9fb;
+  --surface: #ffffff;
+  --border: rgba(122, 143, 172, 0.28);
+  --shadow: 0 8px 24px rgba(47, 58, 69, 0.08);
+  --radius: 16px;
+  --max: 1080px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+}
+a { color: var(--teal-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; display: block; }
+
+.container {
+  width: min(100% - 2rem, var(--max));
+  margin-inline: auto;
+}
+
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+.brand:hover { text-decoration: none; }
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+.brand-text small {
+  display: block;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+.nav a {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 0.35rem 0.15rem;
+}
+.nav a:hover, .nav a.active { color: var(--teal-dark); }
+.nav .btn { margin-left: 0.25rem; }
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.8rem 1.15rem;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(76, 184, 185, 0.28);
+}
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+.btn-ghost {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.55);
+}
+
+.hero {
+  background:
+    radial-gradient(1200px 400px at 10% -10%, rgba(76,184,185,0.22), transparent 60%),
+    radial-gradient(900px 360px at 90% 0%, rgba(123,175,221,0.25), transparent 55%),
+    linear-gradient(180deg, #eef7f8 0%, var(--bg) 100%);
+  padding: 3.5rem 0 2.75rem;
+}
+.hero-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+@media (min-width: 860px) {
+  .hero-grid { grid-template-columns: 1.3fr 0.9fr; }
+}
+.hero h1 {
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  line-height: 1.15;
+  margin: 0 0 0.85rem;
+}
+.hero h1 span { color: var(--teal-dark); }
+.hero p.lead {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin: 0 0 1.4rem;
+  max-width: 38rem;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.hero-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.35rem 1.4rem;
+}
+.hero-card h2 {
+  margin: 0 0 0.85rem;
+  font-size: 1.15rem;
+}
+.times-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.times-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+.times-list li:last-child { border-bottom: none; }
+.times-list span { color: var(--muted); font-weight: 600; }
+
+section { padding: 2.75rem 0; }
+.section-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+}
+.section-sub {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  max-width: 40rem;
+}
+.cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.3rem;
+  box-shadow: var(--shadow);
+}
+.card h3 { margin: 0 0 0.45rem; font-size: 1.08rem; }
+.card p { margin: 0; color: var(--muted); }
+.icon-pill {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, rgba(76,184,185,0.18), rgba(123,175,221,0.22));
+  font-size: 1.25rem;
+}
+
+.cta-band {
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  color: #fff;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.cta-band h2 { margin: 0 0 0.35rem; font-size: 1.35rem; }
+.cta-band p { margin: 0; opacity: 0.95; }
+
+.page-hero {
+  padding: 2.25rem 0 1.25rem;
+  background: linear-gradient(180deg, #eef7f8, var(--bg));
+  border-bottom: 1px solid var(--border);
+}
+.page-hero h1 { margin: 0 0 0.4rem; font-size: clamp(1.7rem, 3.5vw, 2.2rem); }
+.page-hero p { margin: 0; color: var(--muted); max-width: 40rem; }
+
+.content-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.4rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+.content-block h2 { margin-top: 0; }
+
+.doctrine details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.65rem;
+  box-shadow: var(--shadow);
+}
+.doctrine summary {
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+}
+.doctrine summary::-webkit-details-marker { display: none; }
+.doctrine summary::after {
+  content: "+";
+  float: right;
+  color: var(--teal-dark);
+  font-weight: 800;
+}
+.doctrine details[open] summary::after { content: "–"; }
+.doctrine details p {
+  color: var(--muted);
+  margin: 0.75rem 0 0.35rem;
+}
+.doctrine .verses {
+  font-size: 0.9rem;
+  color: var(--teal-dark);
+  font-weight: 600;
+}
+
+.site-footer {
+  margin-top: 2rem;
+  background: #243039;
+  color: #d7e2ea;
+  padding: 2.25rem 0 1.5rem;
+}
+.footer-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.site-footer h3 {
+  margin: 0 0 0.65rem;
+  color: #fff;
+  font-size: 1rem;
+}
+.site-footer a { color: #c5d7e4; }
+.site-footer a:hover { color: #fff; }
+.site-footer p, .site-footer li { color: #a9bbc8; }
+.footer-bottom {
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  font-size: 0.9rem;
+  color: #8fa3b3;
+}
+
+@media (max-width: 760px) {
+  .menu-toggle { display: inline-flex; }
+  .nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: 0.75rem;
+  }
+  .nav.open { display: flex; }
+  .nav .btn { margin-left: 0; }
+}
