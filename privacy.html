@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Temple Baptist Church Wichita</title>
+  <meta name="description" content="Privacy policy for Temple Baptist Church Wichita website and church app.">
+  <meta name="theme-color" content="#4cb8b9">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="privacy">
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TBC</span>
+      <span class="brand-text">Temple Baptist<span><small>Wichita, Kansas</small></span></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" onclick="document.getElementById('mainNav').classList.toggle('open')">Menu</button>
+    <nav class="nav" id="mainNav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="visit.html" data-nav="visit">Visit</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="sermons.html" data-nav="sermons">Sermons</a>
+      <a href="give.html" data-nav="give">Give</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+      <a class="btn btn-primary" href="https://tbc-app.pages.dev" rel="noopener">Church App</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <h1>Privacy Policy</h1>
+      <p>Last updated: August 9, 2026</p>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <div class="content-block">
+        <h2>Overview</h2>
+        <p>Temple Baptist Church (“TBC,” “we,” “us”) operates the public website for tbcwichita.com and related church digital tools, including our member church application. This policy explains what information we collect and how we use it.</p>
+      </div>
+      <div class="content-block">
+        <h2>Information we collect</h2>
+        <p>Depending on how you use our website or app, we may collect:</p>
+        <ul>
+          <li>Contact information you provide (name, email, phone)</li>
+          <li>Account information if you create a member profile in the church app</li>
+          <li>Ministry-related content you submit (messages, prayer requests, photos, calendar responses)</li>
+          <li>Basic technical data such as browser type and device information needed to operate the service</li>
+        </ul>
+      </div>
+      <div class="content-block">
+        <h2>How we use information</h2>
+        <p>We use information to operate church ministries, communicate with members and visitors, improve our website and app, and maintain the security of our systems. We do not sell personal information.</p>
+      </div>
+      <div class="content-block">
+        <h2>Sharing</h2>
+        <p>We may use trusted service providers (such as hosting, authentication, or giving platforms) to operate our digital tools. Those providers process data only to provide their services. We may also disclose information if required by law.</p>
+      </div>
+      <div class="content-block">
+        <h2>Data security &amp; retention</h2>
+        <p>We take reasonable steps to protect information. Ministry records and account data are retained as needed for church operations and legal obligations.</p>
+      </div>
+      <div class="content-block">
+        <h2>Children</h2>
+        <p>Our public website is general audience. Member app features are intended for church members and families under church supervision. Parents or guardians should oversee children’s use of church digital tools.</p>
+      </div>
+      <div class="content-block">
+        <h2>Contact</h2>
+        <p>Questions about this policy:<br>
+        Temple Baptist Church<br>
+        11801 E Lincoln St, Wichita, KS 67207<br>
+        <a href="mailto:tbcwichita@gmail.com">tbcwichita@gmail.com</a> · <a href="tel:+13162638376">(316) 263-8376</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Temple Baptist Church</h3>
+      <p>11801 E Lincoln St<br>Wichita, KS 67207</p>
+      <p><a href="tel:+13162638376">(316) 263-8376</a><br>
+      <a href="mailto:tbcwichita@gmail.com">tbcwichita@gmail.com</a></p>
+    </div>
+    <div>
+      <h3>Service Times</h3>
+      <p>Sunday School — 9:45 AM<br>
+      Sunday Morning — 11:00 AM<br>
+      Sunday Evening — 6:00 PM<br>
+      Wednesday — 7:00 PM</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <p>
+        <a href="visit.html">Plan a Visit</a><br>
+        <a href="about.html">What We Believe</a><br>
+        <a href="sermons.html">Sermons &amp; Live</a><br>
+        <a href="give.html">Give</a><br>
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span id="year"></span> Temple Baptist Church · Wichita, Kansas · Independent Baptist</p>
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  (function () {
+    var page = document.body.getAttribute('data-page');
+    if (!page) return;
+    document.querySelectorAll('[data-nav]').forEach(function (a) {
+      if (a.getAttribute('data-nav') === page) a.classList.add('active');
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Temple Baptist Church Wichita</title>
+  <meta name="description" content="Contact Temple Baptist Church in Wichita, Kansas.">
+  <meta name="theme-color" content="#4cb8b9">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="contact">
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TBC</span>
+      <span class="brand-text">Temple Baptist<span><small>Wichita, Kansas</small></span></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" onclick="document.getElementById('mainNav').classList.toggle('open')">Menu</button>
+    <nav class="nav" id="mainNav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="visit.html" data-nav="visit">Visit</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="sermons.html" data-nav="sermons">Sermons</a>
+      <a href="give.html" data-nav="give">Give</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+      <a class="btn btn-primary" href="https://tbc-app.pages.dev" rel="noopener">Church App</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <h1>Contact</h1>
+      <p>We would love to hear from you.</p>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <div class="cards">
+        <article class="card">
+          <h3>Address</h3>
+          <p>11801 E Lincoln St<br>Wichita, KS 67207</p>
+          <p><a href="https://maps.google.com/?q=11801+E+Lincoln+St+Wichita+KS+67207" target="_blank" rel="noopener">Get directions</a></p>
+        </article>
+        <article class="card">
+          <h3>Phone</h3>
+          <p><a href="tel:+13162638376">(316) 263-8376</a></p>
+        </article>
+        <article class="card">
+          <h3>Email</h3>
+          <p><a href="mailto:tbcwichita@gmail.com">tbcwichita@gmail.com</a></p>
+        </article>
+      </div>
+      <div class="content-block" style="margin-top:1rem;">
+        <h2>Social</h2>
+        <p>
+          <a href="https://www.facebook.com/tbcwichita" target="_blank" rel="noopener">Facebook</a> ·
+          <a href="https://www.instagram.com/tbc_ict/" target="_blank" rel="noopener">Instagram</a> ·
+          <a href="https://www.youtube.com/@TBCWichita1" target="_blank" rel="noopener">YouTube</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Temple Baptist Church</h3>
+      <p>11801 E Lincoln St<br>Wichita, KS 67207</p>
+      <p><a href="tel:+13162638376">(316) 263-8376</a><br>
+      <a href="mailto:tbcwichita@gmail.com">tbcwichita@gmail.com</a></p>
+    </div>
+    <div>
+      <h3>Service Times</h3>
+      <p>Sunday School — 9:45 AM<br>
+      Sunday Morning — 11:00 AM<br>
+      Sunday Evening — 6:00 PM<br>
+      Wednesday — 7:00 PM</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <p>
+        <a href="visit.html">Plan a Visit</a><br>
+        <a href="about.html">What We Believe</a><br>
+        <a href="sermons.html">Sermons &amp; Live</a><br>
+        <a href="give.html">Give</a><br>
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span id="year"></span> Temple Baptist Church · Wichita, Kansas · Independent Baptist</p>
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  (function () {
+    var page = document.body.getAttribute('data-page');
+    if (!page) return;
+    document.querySelectorAll('[data-nav]').forEach(function (a) {
+      if (a.getAttribute('data-nav') === page) a.classList.add('active');
+    });
+  })();
+</script>
+</body>
+</html>
