@@ -12,7 +12,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="index.html">
-      <span class="brand-mark">TBC</span>
+      <img class="brand-logo" src="https://tbc-app.jacobreese95.workers.dev/tbclogo.jpeg" alt="Temple Baptist Church">
       <span class="brand-text">Temple Baptist<span><small>Wichita, Kansas</small></span></span>
     </a>
     <button class="menu-toggle" type="button" aria-label="Open menu" onclick="document.getElementById('mainNav').classList.toggle('open')">Menu</button>
@@ -29,6 +29,11 @@
 </header>
 <main>
   <section class="hero">
+    <div class="hero-video-wrap hidden" id="heroVideoWrap">
+      <video id="heroVideo" playsinline muted loop controls poster="https://tbc-app.jacobreese95.workers.dev/tbclogo.jpeg">
+        <source src="assets/welcome.mp4" type="video/mp4">
+      </video>
+    </div>
     <div class="container hero-grid">
       <div>
         <h1>Welcome to <span>Temple Baptist Church</span></h1>
@@ -103,7 +108,7 @@
           <p>Traditional, Christ-honoring worship, Bible preaching, and a warm church family.</p>
         </article>
         <article class="card">
-          <h3>Kids &amp; families</h3>
+          <h3>Kids & families</h3>
           <p>We provide care and teaching for children so parents can worship with confidence.</p>
         </article>
         <article class="card">
@@ -135,7 +140,7 @@
       <p>
         <a href="visit.html">Plan a Visit</a><br>
         <a href="about.html">What We Believe</a><br>
-        <a href="sermons.html">Sermons &amp; Live</a><br>
+        <a href="sermons.html">Sermons & Live</a><br>
         <a href="give.html">Give</a><br>
         <a href="privacy.html">Privacy Policy</a>
       </p>
@@ -152,6 +157,18 @@
     if (!page) return;
     document.querySelectorAll('[data-nav]').forEach(function (a) {
       if (a.getAttribute('data-nav') === page) a.classList.add('active');
+    });
+  })();
+  (function () {
+    var wrap = document.getElementById('heroVideoWrap');
+    var video = document.getElementById('heroVideo');
+    if (!wrap || !video) return;
+    video.addEventListener('loadeddata', function () {
+      wrap.classList.remove('hidden');
+      video.play().catch(function () {});
+    });
+    video.addEventListener('error', function () {
+      wrap.classList.add('hidden');
     });
   })();
 </script>
