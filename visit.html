@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plan a Visit | Temple Baptist Church Wichita</title>
-  <meta name="description" content="Service times and directions for Temple Baptist Church in Wichita, Kansas.">
-  <meta name="theme-color" content="#4cb8b9">
+  <meta name="description" content="Let us know you are coming to Temple Baptist Church in Wichita, Kansas.">
+  <meta name="theme-color" content="#7bafdd">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body data-page="visit">
@@ -20,10 +23,10 @@
       <a href="index.html" data-nav="home">Home</a>
       <a href="visit.html" data-nav="visit">Visit</a>
       <a href="about.html" data-nav="about">About</a>
-      <a href="sermons.html" data-nav="sermons">Sermons</a>
+      <a href="sermons.html" data-nav="sermons">Watch</a>
       <a href="give.html" data-nav="give">Give</a>
       <a href="contact.html" data-nav="contact">Contact</a>
-      <a class="btn btn-primary" href="https://tbc-app.jacobreese95.workers.dev" rel="noopener">Church App</a>
+      <a class="btn btn-primary" href="visit.html">Plan Your Visit</a>
     </nav>
   </div>
 </header>
@@ -31,36 +34,104 @@
   <div class="page-hero">
     <div class="container">
       <h1>Plan a Visit</h1>
-      <p>We would be honored to have you worship with us this week.</p>
+      <p>Tell us who is coming and we will be ready for you.</p>
     </div>
   </div>
   <section>
-    <div class="container">
-      <div class="content-block">
-        <h2>Service Times</h2>
-        <ul class="times-list">
-          <li>Sunday School <span>9:45 AM</span></li>
-          <li>Sunday Morning Service <span>11:00 AM</span></li>
-          <li>Sunday Evening Service <span>5:00 PM</span></li>
-          <li>Wednesday Evening <span>7:00 PM</span></li>
-        </ul>
-      </div>
-      <div class="content-block">
-        <h2>Location</h2>
-        <p><strong>Temple Baptist Church</strong><br>
-        11801 E Lincoln St<br>
-        Wichita, KS 67207</p>
-        <p><a class="btn btn-primary" href="https://maps.google.com/?q=11801+E+Lincoln+St+Wichita+KS+67207" target="_blank" rel="noopener">Open in Google Maps</a></p>
-      </div>
-      <div class="content-block">
-        <h2>What to expect</h2>
-        <p>You will find friendly greeters, clear Bible preaching, and Christ-honoring music. Dress is typically modest — formal or informal attire is common. We want you to feel welcome from the moment you arrive.</p>
-        <p>If you have children, ask a greeter about nursery and children’s ministries available during services.</p>
-      </div>
-      <div class="content-block">
-        <h2>Can’t make it in person?</h2>
-        <p>Watch recent messages and live streams on our <a href="sermons.html">Sermons</a> page.</p>
-      </div>
+    <div class="container visit-layout">
+      <form class="visit-form content-block" action="https://formsubmit.co/tbcwichita@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Plan a Visit — Temple Baptist Church">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none">
+
+        <h2>Who is coming?</h2>
+
+        <label>Your name
+          <input type="text" name="Name" required placeholder="First and last name">
+        </label>
+        <div class="form-row">
+          <label>Phone
+            <input type="tel" name="Phone" placeholder="(316) 555-1234">
+          </label>
+          <label>Email
+            <input type="email" name="Email" required placeholder="you@email.com">
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>What day are you coming?
+            <input type="date" name="Visit date" required>
+          </label>
+          <label>Which service?
+            <select name="Service" required>
+              <option value="">Choose one</option>
+              <option>Sunday School 9:45 AM</option>
+              <option>Sunday Morning 11:00 AM</option>
+              <option>Sunday Evening 5:00 PM</option>
+              <option>Wednesday 7:00 PM</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="count-row">
+          <div class="count-box">
+            <span>Adults</span>
+            <div class="stepper">
+              <button type="button" data-count="adults" data-dir="-1">−</button>
+              <strong id="adultsDisplay">1</strong>
+              <button type="button" data-count="adults" data-dir="1">+</button>
+            </div>
+          </div>
+          <div class="count-box">
+            <span>Kids</span>
+            <div class="stepper">
+              <button type="button" data-count="kids" data-dir="-1">−</button>
+              <strong id="kidsDisplay">0</strong>
+              <button type="button" data-count="kids" data-dir="1">+</button>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="Adults" id="adultsInput" value="1">
+        <input type="hidden" name="Kids" id="kidsInput" value="0">
+        <input type="hidden" name="Kids ages" id="agesInput" value="None">
+        <p class="total-line">Total coming: <strong id="totalDisplay">1</strong></p>
+
+        <div id="agesWrap" class="ages-wrap" hidden>
+          <p>Ages of kids</p>
+          <div id="ageFields"></div>
+        </div>
+
+        <label>Any questions for us?
+          <textarea name="Questions" rows="4" placeholder="Parking, nursery, wheelchair seating, first-time visitor…"></textarea>
+        </label>
+
+        <button class="btn btn-primary" type="submit">Send to the church</button>
+        <p class="form-note">This emails Temple Baptist at tbcwichita@gmail.com.</p>
+      </form>
+
+      <aside>
+        <div class="content-block">
+          <h2>Service Times</h2>
+          <ul class="times-list">
+            <li>Sunday School <span>9:45 AM</span></li>
+            <li>Sunday Morning <span>11:00 AM</span></li>
+            <li>Sunday Evening <span>5:00 PM</span></li>
+            <li>Wednesday Evening <span>7:00 PM</span></li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <h2>Location</h2>
+          <p><strong>Temple Baptist Church</strong><br>
+          11801 E Lincoln St<br>
+          Wichita, KS 67207</p>
+          <p><a class="btn btn-secondary" href="https://maps.google.com/?q=11801+E+Lincoln+St+Wichita+KS+67207" target="_blank" rel="noopener">Open in Google Maps</a></p>
+        </div>
+        <div class="content-block">
+          <h2>What to expect</h2>
+          <p>Friendly greeters, clear Bible preaching, and Christ-honoring music. Dress is typically modest — formal or informal attire is common.</p>
+        </div>
+      </aside>
     </div>
   </section>
 </main>
@@ -98,10 +169,65 @@
   document.getElementById('year').textContent = new Date().getFullYear();
   (function () {
     var page = document.body.getAttribute('data-page');
-    if (!page) return;
     document.querySelectorAll('[data-nav]').forEach(function (a) {
       if (a.getAttribute('data-nav') === page) a.classList.add('active');
     });
+  })();
+
+  (function () {
+    var adults = 1;
+    var kids = 0;
+    var adultsDisplay = document.getElementById('adultsDisplay');
+    var kidsDisplay = document.getElementById('kidsDisplay');
+    var totalDisplay = document.getElementById('totalDisplay');
+    var adultsInput = document.getElementById('adultsInput');
+    var kidsInput = document.getElementById('kidsInput');
+    var agesInput = document.getElementById('agesInput');
+    var agesWrap = document.getElementById('agesWrap');
+    var ageFields = document.getElementById('ageFields');
+
+    function renderAges() {
+      ageFields.innerHTML = '';
+      agesWrap.hidden = kids < 1;
+      for (var i = 1; i <= kids; i++) {
+        var label = document.createElement('label');
+        label.textContent = 'Kid ' + i + ' age';
+        var sel = document.createElement('select');
+        sel.className = 'kid-age';
+        sel.innerHTML = '<option value="">Age</option>';
+        for (var a = 0; a <= 18; a++) {
+          sel.innerHTML += '<option value="' + a + '">' + (a === 0 ? 'Under 1' : a) + '</option>';
+        }
+        label.appendChild(sel);
+        ageFields.appendChild(label);
+      }
+      syncAges();
+    }
+    function syncAges() {
+      var ages = Array.prototype.map.call(document.querySelectorAll('.kid-age'), function (el) {
+        return el.value === '' ? '?' : el.value;
+      });
+      agesInput.value = ages.length ? ages.join(', ') : 'None';
+    }
+    function render() {
+      adultsDisplay.textContent = adults;
+      kidsDisplay.textContent = kids;
+      totalDisplay.textContent = adults + kids;
+      adultsInput.value = adults;
+      kidsInput.value = kids;
+      renderAges();
+    }
+    document.querySelectorAll('.stepper button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = btn.getAttribute('data-count');
+        var dir = parseInt(btn.getAttribute('data-dir'), 10);
+        if (key === 'adults') adults = Math.max(1, Math.min(20, adults + dir));
+        if (key === 'kids') kids = Math.max(0, Math.min(20, kids + dir));
+        render();
+      });
+    });
+    ageFields.addEventListener('change', syncAges);
+    render();
   })();
 </script>
 </body>
