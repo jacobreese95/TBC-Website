@@ -33,18 +33,20 @@
 <main>
   <div class="page-hero">
     <div class="container">
+      <p class="eyebrow dark">First time here</p>
       <h1>Plan a Visit</h1>
       <p>Tell us who is coming and we will be ready for you.</p>
     </div>
   </div>
   <section>
     <div class="container visit-layout">
-      <form class="visit-form content-block" action="https://formsubmit.co/tbcwichita@gmail.com" method="POST">
+      <form class="visit-form" action="https://formsubmit.co/tbcwichita@gmail.com" method="POST">
         <input type="hidden" name="_subject" value="Plan a Visit — Temple Baptist Church">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="_honey" style="display:none">
 
+        <p class="eyebrow dark">Let us know</p>
         <h2>Who is coming?</h2>
 
         <label>Your name
@@ -74,6 +76,7 @@
           </label>
         </div>
 
+        <p class="field-label">How many people?</p>
         <div class="count-row">
           <div class="count-box">
             <span>Adults</span>
@@ -106,13 +109,14 @@
           <textarea name="Questions" rows="4" placeholder="Parking, nursery, wheelchair seating, first-time visitor…"></textarea>
         </label>
 
-        <button class="btn btn-primary" type="submit">Send to the church</button>
+        <button class="btn btn-primary btn-block" type="submit">Send to the church</button>
         <p class="form-note">This emails Temple Baptist at tbcwichita@gmail.com.</p>
       </form>
 
-      <aside>
-        <div class="content-block">
-          <h2>Service Times</h2>
+      <aside class="visit-side">
+        <div class="content-block side-card">
+          <p class="eyebrow dark">Sundays & Wednesday</p>
+          <h2>Service times</h2>
           <ul class="times-list">
             <li>Sunday School <span>9:45 AM</span></li>
             <li>Sunday Morning <span>11:00 AM</span></li>
@@ -120,16 +124,16 @@
             <li>Wednesday Evening <span>7:00 PM</span></li>
           </ul>
         </div>
-        <div class="content-block">
+        <div class="content-block side-card">
+          <p class="eyebrow dark">Find us</p>
           <h2>Location</h2>
-          <p><strong>Temple Baptist Church</strong><br>
-          11801 E Lincoln St<br>
-          Wichita, KS 67207</p>
-          <p><a class="btn btn-secondary" href="https://maps.google.com/?q=11801+E+Lincoln+St+Wichita+KS+67207" target="_blank" rel="noopener">Open in Google Maps</a></p>
+          <p>11801 E Lincoln St<br>Wichita, KS 67207</p>
+          <p><a class="btn btn-secondary" href="https://maps.google.com/?q=11801+E+Lincoln+St+Wichita+KS+67207" target="_blank" rel="noopener">Get directions</a></p>
         </div>
-        <div class="content-block">
+        <div class="content-block side-card">
+          <p class="eyebrow dark">Your first Sunday</p>
           <h2>What to expect</h2>
-          <p>Friendly greeters, clear Bible preaching, and Christ-honoring music. Dress is typically modest — formal or informal attire is common.</p>
+          <p>Friendly greeters, clear Bible preaching, and Christ-honoring music. Come as you are.</p>
         </div>
       </aside>
     </div>
