@@ -278,6 +278,21 @@ body[data-page="home"] .site-header.overlay .menu-toggle {
   font-weight: 650;
   color: var(--blue);
 }
+.times-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.times-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+.times-list li:last-child { border-bottom: none; }
+.times-list span { color: var(--slate); }
 
 section { padding: 3.25rem 0; width: 100%; }
 .section-title {
@@ -361,6 +376,90 @@ section { padding: 3.25rem 0; width: 100%; }
   margin-bottom: 1rem;
 }
 .content-block h2 { margin-top: 0; color: var(--charcoal); }
+
+.visit-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 900px) {
+  .visit-layout { grid-template-columns: 1.3fr .8fr; align-items: start; }
+}
+.visit-form label {
+  display: block;
+  font-weight: 600;
+  margin: 0 0 0.9rem;
+  color: var(--charcoal);
+}
+.visit-form input,
+.visit-form select,
+.visit-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: .35rem;
+  padding: .7rem .8rem;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font: 500 1rem var(--font);
+  color: var(--charcoal);
+  background: #fff;
+}
+.form-row {
+  display: grid;
+  gap: .75rem;
+}
+@media (min-width: 640px) {
+  .form-row { grid-template-columns: 1fr 1fr; }
+}
+.count-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+  margin: .4rem 0 1rem;
+}
+.count-box {
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: .85rem;
+}
+.count-box span {
+  display: block;
+  font-weight: 650;
+  margin-bottom: .45rem;
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+.stepper strong { font-size: 1.4rem; }
+.stepper button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--blue);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.total-line { margin: 0 0 1rem; color: var(--slate); }
+.ages-wrap {
+  display: grid;
+  gap: .65rem;
+  margin-bottom: 1rem;
+}
+.ages-wrap p { margin: 0; font-weight: 650; }
+#ageFields {
+  display: grid;
+  gap: .65rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.form-note {
+  margin: .75rem 0 0;
+  color: var(--slate);
+  font-size: .9rem;
+}
 
 .doctrine details {
   background: var(--surface);
