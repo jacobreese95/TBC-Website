@@ -30,8 +30,8 @@
 <main>
   <section class="hero">
     <div class="hero-video-wrap" style="position:relative" id="heroVideoWrap">
-      <video id="heroVideo" autoplay muted loop playsinline poster="assets/welcome-poster.jpg">
-        <source src="assets/welcome.mp4" type="video/mp4">
+      <video id="heroVideo" autoplay muted loop playsinline poster="https://tbc-app.jacobreese95.workers.dev/tbclogo.jpeg">
+        <source src="welcome.mp4" type="video/mp4">
       </video>
       <button type="button" id="heroUnmute" class="btn btn-ghost" style="position:absolute;right:12px;bottom:12px;z-index:2;padding:.45rem .8rem;font-size:.8rem;">Tap for sound</button>
     </div>
@@ -170,7 +170,6 @@
     video.addEventListener('canplay', tryPlay);
     video.addEventListener('loadeddata', tryPlay);
     document.addEventListener('click', tryPlay, { once: true });
-    video.addEventListener('error', function () { wrap.classList.add('hidden'); });
     var unmute = document.getElementById('heroUnmute');
     if (unmute) unmute.addEventListener('click', function (e) {
       e.stopPropagation();
