@@ -8,13 +8,13 @@
       '<img src="https://tbc-app.jacobreese95.workers.dev/tbclogo.jpeg" alt="Temple Baptist Church">' +
       '<span>Church</span>' +
     '</a>' +
-    '<a class="ministry-link" href="https://www.tbcwichita.com/events/generation-one--31/2026-09-17" target="_blank" rel="noopener">' +
+    '<a class="ministry-link" href="https://htmlpreview.github.io/?https://github.com/jacobreese95/generation-one/blob/main/index.html">' +
       '<img src="https://raw.githubusercontent.com/jacobreese95/generation-one/main/img/generation_one_logo_modified.png" alt="Generation One">' +
       '<span>Generation One</span>' +
     '</a>' +
-    '<a class="ministry-link" href="https://tbawichita.org" target="_blank" rel="noopener">' +
-      '<span class="school-mark">TBS</span>' +
-      '<span>School</span>' +
+    '<a class="ministry-link" href="https://htmlpreview.github.io/?https://github.com/jacobreese95/TBC-Academy/blob/main/index.html">' +
+      '<span class="school-mark">TBA</span>' +
+      '<span>Academy</span>' +
     '</a>';
   var footer = document.querySelector('.site-footer');
   if (footer && footer.parentNode) footer.parentNode.insertBefore(bar, footer);
