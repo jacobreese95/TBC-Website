@@ -16,7 +16,5 @@
       '<span class="school-mark">TBA</span>' +
       '<span>Academy</span>' +
     '</a>';
-  var footer = document.querySelector('.site-footer');
-  if (footer && footer.parentNode) footer.parentNode.insertBefore(bar, footer);
-  else document.body.appendChild(bar);
+  document.body.appendChild(bar);
 })();
