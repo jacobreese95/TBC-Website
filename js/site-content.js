@@ -56,35 +56,39 @@
         data[el.getAttribute("data-cms")] = el.textContent.trim();
       });
     });
+    var addBtn = document.getElementById("addPhotoBtn");
+    if (addBtn) addBtn.classList.add("show");
+    function pickPhoto() {
+      var input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.onchange = function () {
+        var file = input.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          var img = new Image();
+          img.onload = function () {
+            var canvas = document.createElement("canvas");
+            var scale = Math.min(1, 1400 / img.width);
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+            data.featurePhoto = canvas.toDataURL("image/jpeg", 0.75);
+            photo.src = data.featurePhoto;
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }
     var photo = document.getElementById("cms-feature-photo");
     if (photo) {
       photo.classList.add("editable");
       photo.title = "Click to change photo";
-      photo.addEventListener("click", function () {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function () {
-          var file = input.files[0];
-          if (!file) return;
-          var reader = new FileReader();
-          reader.onload = function () {
-            var img = new Image();
-            img.onload = function () {
-              var canvas = document.createElement("canvas");
-              var scale = Math.min(1, 1200 / img.width);
-              canvas.width = Math.round(img.width * scale);
-              canvas.height = Math.round(img.height * scale);
-              canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-              data.featurePhoto = canvas.toDataURL("image/jpeg", 0.72);
-              photo.src = data.featurePhoto;
-            };
-            img.src = reader.result;
-          };
-          reader.readAsDataURL(file);
-        };
-        input.click();
-      });
+      photo.addEventListener("click", pickPhoto);
+      if (addBtn) addBtn.addEventListener("click", pickPhoto);
     }
     document.getElementById("cmsSave").onclick = function () {
       document.querySelectorAll("[data-cms]").forEach(function (el) {

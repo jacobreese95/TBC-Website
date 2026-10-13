@@ -195,3 +195,7 @@ body.editing #cms-feature-photo{cursor:pointer}
 #loginGo{background:#7bafdd;color:#fff}
 #loginClose{background:#eee;color:#404040}
 #loginError{color:#a33;font-size:.85rem}
+
+.feature-photo-wrap{position:relative;min-height:280px;border-radius:22px;background:#e7e8e8;overflow:hidden}
+.add-photo-btn{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:0;background:#7bafdd;color:#fff;border-radius:999px;padding:.8rem 1.1rem;font-weight:700;cursor:pointer;z-index:3}
+.add-photo-btn.show{display:inline-flex}
