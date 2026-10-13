@@ -142,15 +142,12 @@ section { padding: 3.25rem 0; width: 100%; }
 }
 
 /* Common device heights so the hero stays tall and crops the sides */
-@media (max-width: 430px) { /* iPhone */
-  .hero-full { height: 68svh; min-height: 420px; }
-  .hero-full video { object-position: center 40%; }
-  .hero-copy { padding-bottom: 2.6rem; }
-  .hero-copy h1 { font-size: clamp(2.6rem, 12vw, 3.8rem); }
-}
-@media (min-width: 431px) and (max-width: 767px) {
-  .hero-full { height: 72svh; min-height: 480px; }
-  .hero-full video { object-position: center center; }
+@media (max-width: 767px) { /* phones: match 16:9 so the full width stays in frame */
+  .hero-full { height: auto; aspect-ratio: 16 / 9; min-height: 0; }
+  .hero-full video { object-fit: cover; object-position: center center; }
+  .hero-copy { padding: 0 1rem 1.4rem; }
+  .hero-copy h1 { font-size: clamp(2.2rem, 9vw, 3.4rem); margin-bottom: .7rem; }
+  .hero-actions .btn { padding: .7rem 1rem; font-size: .88rem; }
 }
 @media (min-width: 431px) and (max-width: 834px) { /* iPad portrait / large phone */
   .hero-full { height: 88svh; min-height: 680px; }
