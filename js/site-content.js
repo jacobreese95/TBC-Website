@@ -37,6 +37,17 @@
     };
     document.head.appendChild(s);
   }
+  function ensureCropper(done) {
+    if (window.Cropper) return done();
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css";
+    document.head.appendChild(link);
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js";
+    s.onload = done;
+    document.head.appendChild(s);
+  }
   function enableEditing() {
     document.body.classList.add("editing");
     var bar = document.createElement("div");
@@ -62,6 +73,25 @@
       data.featurePhoto = url;
       if (photo) photo.src = url;
     }
+    function openCropper(url) {
+      var picker = document.getElementById("photoPicker");
+      if (picker) picker.remove();
+      var old = document.getElementById("cropModal");
+      if (old) old.remove();
+      var modal = document.createElement("div");
+      modal.id = "cropModal";
+      modal.innerHTML = '<div class="crop-card"><div class="picker-top"><h2>Crop photo</h2><button type="button" id="cropCancel">Cancel</button></div><div class="crop-stage"><img id="cropImage" src="' + url + '" alt=""></div><div class="login-actions"><button type="button" id="cropApply">Use this crop</button></div></div>';
+      document.body.appendChild(modal);
+      var image = document.getElementById("cropImage");
+      var cropper = new Cropper(image, { viewMode: 1, aspectRatio: 4 / 5, autoCropArea: 1, background: false });
+      document.getElementById("cropCancel").onclick = function () { cropper.destroy(); modal.remove(); };
+      document.getElementById("cropApply").onclick = function () {
+        var canvas = cropper.getCroppedCanvas({ maxWidth: 1400, maxHeight: 1600, imageSmoothingQuality: "high" });
+        usePhoto(canvas.toDataURL("image/jpeg", 0.82));
+        cropper.destroy();
+        modal.remove();
+      };
+    }
     function uploadNewPhoto() {
       var input = document.createElement("input");
       input.type = "file";
@@ -78,9 +108,7 @@
             canvas.width = Math.round(img.width * scale);
             canvas.height = Math.round(img.height * scale);
             canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-            usePhoto(canvas.toDataURL("image/jpeg", 0.75));
-            var modal = document.getElementById("photoPicker");
-            if (modal) modal.remove();
+            openCropper(canvas.toDataURL("image/jpeg", 0.85));
           };
           img.src = reader.result;
         };
@@ -108,7 +136,7 @@
           btn.type = "button";
           var when = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate().toLocaleDateString() : "";
           btn.innerHTML = '<img src="' + d.url + '" alt=""><small>' + (d.caption || "Photo") + (when ? " · " + when : "") + '</small>';
-          btn.onclick = function () { usePhoto(d.url); modal.remove(); };
+          btn.onclick = function () { openCropper(d.url); };
           grid.appendChild(btn);
         });
       }).catch(function (e) {
@@ -143,7 +171,7 @@
       if (doc.exists) apply(doc.data());
     }).catch(function () {});
     firebase.auth().onAuthStateChanged(function (user) {
-      if (user) enableEditing();
+      if (user) ensureCropper(enableEditing);
     });
 
   function showLogin() {

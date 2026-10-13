@@ -213,3 +213,9 @@ body.editing #cms-feature-photo{cursor:pointer}
 .picker-grid button:hover{border-color:#7bafdd}
 .picker-grid img{width:100%;height:110px;object-fit:cover;display:block}
 .picker-grid small{display:block;padding:.35rem .45rem .5rem;color:#404040}
+
+#cropModal{position:fixed;inset:0;background:rgba(64,64,64,.55);z-index:96;display:grid;place-items:center;padding:1rem}
+.crop-card{width:min(720px,100%);background:#fff;border-radius:18px;padding:1rem;color:#404040}
+.crop-stage{max-height:62vh;background:#111;border-radius:12px;overflow:hidden}
+.crop-stage img{max-width:100%;display:block}
+#cropApply{background:#7bafdd;color:#fff;border:0;border-radius:999px;padding:.7rem 1rem;font-weight:700;cursor:pointer}
