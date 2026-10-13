@@ -23,6 +23,14 @@
     });
     var img = document.getElementById("cms-feature-photo");
     if (img && data.featureCrop && window.applyFeatureCrop) window.applyFeatureCrop(img, data.featureCrop);
+    ["features","steps"].forEach(function (group) {
+      if (!data[group] || !data[group].length) return;
+      var grid = document.querySelector('[data-block-group="' + group + '"]');
+      if (!grid) return;
+      grid.innerHTML = data[group].map(function (block, i) {
+        return '<article class="feature-card"><span>' + String(i + 1).padStart(2, "0") + '</span><h3>' + (block.title || "") + '</h3><p>' + (block.text || "") + '</p></article>';
+      }).join("");
+    });
   }
   window.applyFeatureCrop = function (img, crop) {
     if (!img || !crop) return;
