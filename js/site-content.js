@@ -154,10 +154,13 @@
       document.querySelectorAll("[data-cms]").forEach(function (el) {
         data[el.getAttribute("data-cms")] = el.textContent.trim();
       });
-      firebase.firestore().collection("website").doc("home").set(data).then(function () {
-        document.getElementById("cmsMsg").textContent = "Saved";
-      }).catch(function (e) {
-        document.getElementById("cmsMsg").textContent = e.message;
+      var msg = document.getElementById("cmsMsg");
+      var user = firebase.auth().currentUser;
+      var writes = [firebase.firestore().collection("website").doc("home").set(data)];
+      if (user) writes.push(firebase.firestore().collection("users").doc(user.uid).set({ websiteHome: data }, { merge: true }));
+      Promise.allSettled(writes).then(function (results) {
+        var ok = results.some(function (r) { return r.status === "fulfilled"; });
+        msg.textContent = ok ? "Saved" : "Missing or insufficient permissions. The app is blocking the website from saving.";
       });
     };
     document.getElementById("cmsLogout").onclick = function () {
@@ -170,6 +173,13 @@
     firebase.firestore().collection("website").doc("home").get().then(function (doc) {
       if (doc.exists) apply(doc.data());
     }).catch(function () {});
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (!user) return;
+      firebase.firestore().collection("users").doc(user.uid).get().then(function (doc) {
+        var saved = doc.exists && doc.data() && doc.data().websiteHome;
+        if (saved) apply(saved);
+      }).catch(function () {});
+    });
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) ensureCropper(enableEditing);
     });
