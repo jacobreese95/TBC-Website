@@ -173,3 +173,5 @@ section { padding: 3.25rem 0; width: 100%; }
 .feature-card span { display: block; font-family: var(--serif); color: var(--blue); font-size: 1.7rem; line-height: 1; margin-bottom: .7rem; }
 .feature-card h3 { margin: 0 0 .55rem; font-family: var(--serif); font-size: 1.7rem; line-height: 1.05; color: var(--charcoal); }
 .feature-card p { margin: 0; color: var(--slate); font-size: 1rem; }
+
+.tiny-login{margin-left:.55rem;font-size:.68rem;font-weight:650;color:inherit;opacity:.7;text-decoration:underline;text-underline-offset:2px}
