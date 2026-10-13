@@ -229,3 +229,10 @@ body.editing #cms-feature-photo{cursor:pointer}
 .crop-handle.sw{left:-9px;bottom:-9px;cursor:nesw-resize}
 .crop-handle.se{right:-9px;bottom:-9px;cursor:nwse-resize}
 #cropError{color:#a33;min-height:1.2rem}
+
+body.editing .editable-block{cursor:pointer}
+body.editing .editable-block:hover{outline:2px solid #7bafdd;outline-offset:3px}
+.add-block-btn{margin-top:.8rem;border:0;background:#fff;color:#404040;border-radius:999px;padding:.7rem 1rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow)}
+#blockEditor{position:fixed;inset:0;background:rgba(64,64,64,.45);z-index:97;display:grid;place-items:center;padding:1rem}
+#blockEditor textarea{width:100%;min-height:110px;border:0;background:#f3f3f3;border-radius:12px;padding:.75rem;font:500 1rem Outfit,sans-serif}
+#blockDelete{background:#f3d6d6;color:#8a2b2b}

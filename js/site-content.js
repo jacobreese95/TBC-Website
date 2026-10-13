@@ -223,10 +223,75 @@
       photo.addEventListener("click", pickPhoto);
       if (addBtn) addBtn.addEventListener("click", pickPhoto);
     }
+    function readBlocks(group) {
+      return Array.prototype.map.call(document.querySelectorAll('[data-block-group="' + group + '"] .feature-card'), function (card) {
+        return { title: (card.querySelector("h3") || {}).textContent || "", text: (card.querySelector("p") || {}).textContent || "" };
+      });
+    }
+    function renumber(group) {
+      var cards = document.querySelectorAll('[data-block-group="' + group + '"] .feature-card');
+      Array.prototype.forEach.call(cards, function (card, i) {
+        var n = card.querySelector("span");
+        if (n) n.textContent = String(i + 1).padStart(2, "0");
+      });
+    }
+    function openBlockEditor(card) {
+      var titleEl = card.querySelector("h3");
+      var textEl = card.querySelector("p");
+      var old = document.getElementById("blockEditor");
+      if (old) old.remove();
+      var modal = document.createElement("div");
+      modal.id = "blockEditor";
+      modal.innerHTML = '<div class="login-card"><h2>Edit block</h2><label>Title</label><input id="blockTitle"><label>Words</label><textarea id="blockText"></textarea><div class="login-actions"><button type="button" id="blockSave">Done</button><button type="button" id="blockDelete">Remove block</button><button type="button" id="blockCancel">Cancel</button></div></div>';
+      document.body.appendChild(modal);
+      document.getElementById("blockTitle").value = titleEl ? titleEl.textContent.trim() : "";
+      document.getElementById("blockText").value = textEl ? textEl.textContent.trim() : "";
+      document.getElementById("blockCancel").onclick = function () { modal.remove(); };
+      document.getElementById("blockSave").onclick = function () {
+        if (titleEl) titleEl.textContent = document.getElementById("blockTitle").value;
+        if (textEl) textEl.textContent = document.getElementById("blockText").value;
+        modal.remove();
+      };
+      document.getElementById("blockDelete").onclick = function () {
+        var grid = card.parentElement;
+        card.remove();
+        renumber(grid.getAttribute("data-block-group"));
+        modal.remove();
+      };
+    }
+    document.querySelectorAll(".feature-card").forEach(function (card) {
+      card.classList.add("editable-block");
+      card.addEventListener("click", function (e) {
+        if (e.target.closest("h3, p")) return;
+        openBlockEditor(card);
+      });
+    });
+    document.querySelectorAll("[data-block-group]").forEach(function (grid) {
+      var add = document.createElement("button");
+      add.type = "button";
+      add.className = "add-block-btn";
+      add.textContent = "Add block";
+      add.onclick = function () {
+        var card = document.createElement("article");
+        card.className = "feature-card editable-block";
+        card.innerHTML = "<span>00</span><h3>New block</h3><p>Click the block to edit these words.</p>";
+        card.addEventListener("click", function (e) {
+          if (e.target.closest("h3, p")) return;
+          openBlockEditor(card);
+        });
+        grid.appendChild(card);
+        renumber(grid.getAttribute("data-block-group"));
+        openBlockEditor(card);
+      };
+      grid.insertAdjacentElement("afterend", add);
+    });
+
     document.getElementById("cmsSave").onclick = function () {
       document.querySelectorAll("[data-cms]").forEach(function (el) {
         data[el.getAttribute("data-cms")] = el.textContent.trim();
       });
+      data.features = readBlocks("features");
+      data.steps = readBlocks("steps");
       var msg = document.getElementById("cmsMsg");
       var user = firebase.auth().currentUser;
       var writes = [firebase.firestore().collection("website").doc("home").set(data)];
