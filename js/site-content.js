@@ -73,24 +73,87 @@
       data.featurePhoto = url;
       if (photo) photo.src = url;
     }
-    function openCropper(url) {
+    function openCropper(src) {
       var picker = document.getElementById("photoPicker");
       if (picker) picker.remove();
       var old = document.getElementById("cropModal");
       if (old) old.remove();
       var modal = document.createElement("div");
       modal.id = "cropModal";
-      modal.innerHTML = '<div class="crop-card"><div class="picker-top"><h2>Crop photo</h2><button type="button" id="cropCancel">Cancel</button></div><div class="crop-stage"><img id="cropImage" src="' + url + '" alt=""></div><div class="login-actions"><button type="button" id="cropApply">Use this crop</button></div></div>';
+      modal.innerHTML = '<div class="crop-card"><div class="picker-top"><h2>Crop photo</h2><button type="button" id="cropCancel">Cancel</button></div><p>Drag the box to move it. Drag a corner to resize.</p><div class="crop-stage" id="cropStage"><img id="cropImage" alt=""></div><div class="login-actions"><button type="button" id="cropApply">Use this crop</button></div><p id="cropError"></p></div>';
       document.body.appendChild(modal);
+      var stage = document.getElementById("cropStage");
       var image = document.getElementById("cropImage");
-      var cropper = new Cropper(image, { viewMode: 1, aspectRatio: 4 / 5, autoCropArea: 1, background: false });
-      document.getElementById("cropCancel").onclick = function () { cropper.destroy(); modal.remove(); };
+      image.src = src;
+      var box = document.createElement("div");
+      box.className = "crop-box";
+      stage.appendChild(box);
+      ["nw","ne","sw","se"].forEach(function (name) {
+        var h = document.createElement("i");
+        h.className = "crop-handle " + name;
+        box.appendChild(h);
+      });
+      function placeBox() {
+        var w = stage.clientWidth * 0.72;
+        var h = w * 1.15;
+        if (h > stage.clientHeight * 0.86) { h = stage.clientHeight * 0.86; w = h / 1.15; }
+        box.style.width = w + "px";
+        box.style.height = h + "px";
+        box.style.left = ((stage.clientWidth - w) / 2) + "px";
+        box.style.top = ((stage.clientHeight - h) / 2) + "px";
+      }
+      image.onload = placeBox;
+      if (image.complete) placeBox();
+      var drag = null;
+      box.addEventListener("pointerdown", function (e) {
+        var rect = box.getBoundingClientRect();
+        var stageRect = stage.getBoundingClientRect();
+        drag = { handle: e.target.classList.contains("crop-handle") ? e.target.className : "move", x: e.clientX, y: e.clientY, l: rect.left - stageRect.left, t: rect.top - stageRect.top, w: rect.width, h: rect.height };
+        box.setPointerCapture(e.pointerId);
+      });
+      box.addEventListener("pointermove", function (e) {
+        if (!drag) return;
+        var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+        var l = drag.l, t = drag.t, w = drag.w, h = drag.h;
+        if (drag.handle.indexOf("se") > -1) { w = Math.max(80, drag.w + dx); h = Math.max(80, drag.h + dy); }
+        else if (drag.handle.indexOf("sw") > -1) { w = Math.max(80, drag.w - dx); h = Math.max(80, drag.h + dy); l = drag.l + drag.w - w; }
+        else if (drag.handle.indexOf("ne") > -1) { w = Math.max(80, drag.w + dx); h = Math.max(80, drag.h - dy); t = drag.t + drag.h - h; }
+        else if (drag.handle.indexOf("nw") > -1) { w = Math.max(80, drag.w - dx); h = Math.max(80, drag.h - dy); l = drag.l + drag.w - w; t = drag.t + drag.h - h; }
+        else { l = drag.l + dx; t = drag.t + dy; }
+        l = Math.max(0, Math.min(l, stage.clientWidth - w));
+        t = Math.max(0, Math.min(t, stage.clientHeight - h));
+        box.style.left = l + "px"; box.style.top = t + "px"; box.style.width = w + "px"; box.style.height = h + "px";
+      });
+      box.addEventListener("pointerup", function () { drag = null; });
+      document.getElementById("cropCancel").onclick = function () { modal.remove(); };
       document.getElementById("cropApply").onclick = function () {
-        var canvas = cropper.getCroppedCanvas({ maxWidth: 1400, maxHeight: 1600, imageSmoothingQuality: "high" });
-        usePhoto(canvas.toDataURL("image/jpeg", 0.82));
-        cropper.destroy();
-        modal.remove();
+        var stageRect = stage.getBoundingClientRect();
+        var imgRect = image.getBoundingClientRect();
+        var boxRect = box.getBoundingClientRect();
+        var scaleX = image.naturalWidth / imgRect.width;
+        var scaleY = image.naturalHeight / imgRect.height;
+        var sx = Math.max(0, (boxRect.left - imgRect.left) * scaleX);
+        var sy = Math.max(0, (boxRect.top - imgRect.top) * scaleY);
+        var sw = Math.min(image.naturalWidth - sx, boxRect.width * scaleX);
+        var sh = Math.min(image.naturalHeight - sy, boxRect.height * scaleY);
+        var canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(sw));
+        canvas.height = Math.max(1, Math.round(sh));
+        try {
+          canvas.getContext("2d").drawImage(image, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+          usePhoto(canvas.toDataURL("image/jpeg", 0.85));
+          modal.remove();
+        } catch (err) {
+          document.getElementById("cropError").textContent = "Could not crop this photo. Try Add a new photo instead.";
+        }
       };
+    }
+    function prepareAndCrop(url) {
+      fetch(url).then(function (r) { return r.blob(); }).then(function (blob) {
+        openCropper(URL.createObjectURL(blob));
+      }).catch(function () {
+        openCropper(url);
+      });
     }
     function uploadNewPhoto() {
       var input = document.createElement("input");
@@ -99,20 +162,7 @@
       input.onchange = function () {
         var file = input.files[0];
         if (!file) return;
-        var reader = new FileReader();
-        reader.onload = function () {
-          var img = new Image();
-          img.onload = function () {
-            var canvas = document.createElement("canvas");
-            var scale = Math.min(1, 1400 / img.width);
-            canvas.width = Math.round(img.width * scale);
-            canvas.height = Math.round(img.height * scale);
-            canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-            openCropper(canvas.toDataURL("image/jpeg", 0.85));
-          };
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
+        openCropper(URL.createObjectURL(file));
       };
       input.click();
     }
@@ -136,7 +186,7 @@
           btn.type = "button";
           var when = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate().toLocaleDateString() : "";
           btn.innerHTML = '<img src="' + d.url + '" alt=""><small>' + (d.caption || "Photo") + (when ? " · " + when : "") + '</small>';
-          btn.onclick = function () { openCropper(d.url); };
+          btn.onclick = function () { prepareAndCrop(d.url); };
           grid.appendChild(btn);
         });
       }).catch(function (e) {
