@@ -58,7 +58,11 @@
     });
     var addBtn = document.getElementById("addPhotoBtn");
     if (addBtn) addBtn.classList.add("show");
-    function pickPhoto() {
+    function usePhoto(url) {
+      data.featurePhoto = url;
+      if (photo) photo.src = url;
+    }
+    function uploadNewPhoto() {
       var input = document.createElement("input");
       input.type = "file";
       input.accept = "image/*";
@@ -74,14 +78,42 @@
             canvas.width = Math.round(img.width * scale);
             canvas.height = Math.round(img.height * scale);
             canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-            data.featurePhoto = canvas.toDataURL("image/jpeg", 0.75);
-            photo.src = data.featurePhoto;
+            usePhoto(canvas.toDataURL("image/jpeg", 0.75));
+            var modal = document.getElementById("photoPicker");
+            if (modal) modal.remove();
           };
           img.src = reader.result;
         };
         reader.readAsDataURL(file);
       };
       input.click();
+    }
+    function pickPhoto() {
+      var old = document.getElementById("photoPicker");
+      if (old) old.remove();
+      var modal = document.createElement("div");
+      modal.id = "photoPicker";
+      modal.innerHTML = '<div class="photo-picker"><div class="picker-top"><h2>Choose a photo</h2><button type="button" id="pickerClose">Close</button></div><p>Photos from the church app. Pick one, or add a new photo.</p><button type="button" id="pickerUpload">Add a new photo</button><div id="pickerGrid" class="picker-grid">Loading app photos...</div></div>';
+      document.body.appendChild(modal);
+      document.getElementById("pickerClose").onclick = function () { modal.remove(); };
+      document.getElementById("pickerUpload").onclick = uploadNewPhoto;
+      var grid = document.getElementById("pickerGrid");
+      firebase.firestore().collection("photos").orderBy("createdAt", "desc").limit(60).get().then(function (snap) {
+        grid.innerHTML = "";
+        if (snap.empty) { grid.textContent = "No photos in the app yet."; return; }
+        snap.forEach(function (doc) {
+          var d = doc.data() || {};
+          if (!d.url) return;
+          var btn = document.createElement("button");
+          btn.type = "button";
+          var when = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate().toLocaleDateString() : "";
+          btn.innerHTML = '<img src="' + d.url + '" alt=""><small>' + (d.caption || "Photo") + (when ? " · " + when : "") + '</small>';
+          btn.onclick = function () { usePhoto(d.url); modal.remove(); };
+          grid.appendChild(btn);
+        });
+      }).catch(function (e) {
+        grid.textContent = "Could not load app photos: " + e.message;
+      });
     }
     var photo = document.getElementById("cms-feature-photo");
     if (photo) {
