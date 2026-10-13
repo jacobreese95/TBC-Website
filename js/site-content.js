@@ -17,10 +17,18 @@
         if (img && data[key]) img.src = data[key];
         return;
       }
+      if (key === "featureCrop") return;
       var el = document.querySelector('[data-cms="' + key + '"]');
       if (el && data[key]) el.textContent = data[key];
     });
+    var img = document.getElementById("cms-feature-photo");
+    if (img && data.featureCrop && window.applyFeatureCrop) window.applyFeatureCrop(img, data.featureCrop);
   }
+  window.applyFeatureCrop = function (img, crop) {
+    if (!img || !crop) return;
+    img.style.objectFit = "cover";
+    img.style.objectPosition = ((crop.x + crop.w / 2) * 100) + "% " + ((crop.y + crop.h / 2) * 100) + "%";
+  };
   function loadScripts(done) {
     var s = document.createElement("script");
     s.src = "https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js";
@@ -69,9 +77,18 @@
     });
     var addBtn = document.getElementById("addPhotoBtn");
     if (addBtn) addBtn.classList.add("show");
-    function usePhoto(url) {
+    function usePhoto(url, crop) {
       data.featurePhoto = url;
-      if (photo) photo.src = url;
+      data.featureCrop = crop || null;
+      if (photo) {
+        photo.src = url;
+        applyCrop(photo, crop);
+      }
+    }
+    function applyCrop(img, crop) {
+      if (!img || !crop) { if (img) img.style.objectPosition = "center center"; return; }
+      img.style.objectFit = "cover";
+      img.style.objectPosition = ((crop.x + crop.w / 2) * 100) + "% " + ((crop.y + crop.h / 2) * 100) + "%";
     }
     function openCropper(src) {
       var picker = document.getElementById("photoPicker");
@@ -139,13 +156,19 @@
         var canvas = document.createElement("canvas");
         canvas.width = Math.max(1, Math.round(sw));
         canvas.height = Math.max(1, Math.round(sh));
+        var crop = {
+          x: sx / image.naturalWidth,
+          y: sy / image.naturalHeight,
+          w: sw / image.naturalWidth,
+          h: sh / image.naturalHeight
+        };
         try {
           canvas.getContext("2d").drawImage(image, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
-          usePhoto(canvas.toDataURL("image/jpeg", 0.85));
-          modal.remove();
+          usePhoto(canvas.toDataURL("image/jpeg", 0.85), null);
         } catch (err) {
-          document.getElementById("cropError").textContent = "Could not crop this photo. Try Add a new photo instead.";
+          usePhoto(image.currentSrc || image.src, crop);
         }
+        modal.remove();
       };
     }
     function prepareAndCrop(url) {
