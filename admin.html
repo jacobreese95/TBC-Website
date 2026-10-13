@@ -170,9 +170,8 @@
       });
     };
     auth.onAuthStateChanged(function (user) {
-      document.getElementById("login").classList.toggle("hidden", !!user);
-      document.getElementById("editor").classList.toggle("hidden", !user);
-      if (user) { document.getElementById("who").textContent = user.email; load(); loadAppPhotos(); }
+      if (user) { window.location.href = "index.html"; return; }
+      document.getElementById("login").classList.remove("hidden");
     });
   </script>
 </body>

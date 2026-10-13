@@ -175,3 +175,11 @@ section { padding: 3.25rem 0; width: 100%; }
 .feature-card p { margin: 0; color: var(--slate); font-size: 1rem; }
 
 .tiny-login{margin-left:.55rem;font-size:.68rem;font-weight:650;color:inherit;opacity:.7;text-decoration:underline;text-underline-offset:2px}
+
+.edit-bar{position:fixed;right:1rem;bottom:1rem;z-index:80;display:flex;gap:.45rem;align-items:center;background:#404040;color:#fff;border-radius:999px;padding:.4rem .5rem .4rem .8rem;font-size:.8rem}
+.edit-bar button{border:0;border-radius:999px;padding:.45rem .7rem;font-weight:700;cursor:pointer}
+.edit-bar #cmsSave{background:#7bafdd;color:#fff}
+.edit-bar #cmsLogout{background:#fff;color:#404040}
+body.editing .editable{cursor:text;outline:1px dashed transparent;outline-offset:4px;border-radius:8px}
+body.editing .editable:hover{outline-color:#7bafdd;background:rgba(123,175,221,.12)}
+body.editing #cms-feature-photo{cursor:pointer}
