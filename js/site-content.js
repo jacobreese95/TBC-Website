@@ -109,5 +109,28 @@
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) enableEditing();
     });
+
+  function showLogin() {
+    var old = document.getElementById("loginModal");
+    if (old) old.remove();
+    var modal = document.createElement("div");
+    modal.id = "loginModal";
+    modal.innerHTML = '<div class="login-card"><h2>Login</h2><p>Same email and password as the church app.</p><label>Email</label><input id="loginEmail" type="email"><label>Password</label><input id="loginPassword" type="password"><div class="login-actions"><button type="button" id="loginGo">Login</button><button type="button" id="loginClose">Cancel</button></div><p id="loginError"></p></div>';
+    document.body.appendChild(modal);
+    document.getElementById("loginClose").onclick = function () { modal.remove(); };
+    document.getElementById("loginGo").onclick = function () {
+      firebase.auth().signInWithEmailAndPassword(document.getElementById("loginEmail").value.trim(), document.getElementById("loginPassword").value).then(function () {
+        modal.remove();
+      }).catch(function (e) {
+        document.getElementById("loginError").textContent = e.message;
+      });
+    };
+  }
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.id === "openLogin") {
+      e.preventDefault();
+      showLogin();
+    }
+  });
   });
 })();

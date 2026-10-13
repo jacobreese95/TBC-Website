@@ -183,3 +183,15 @@ section { padding: 3.25rem 0; width: 100%; }
 body.editing .editable{cursor:text;outline:1px dashed transparent;outline-offset:4px;border-radius:8px}
 body.editing .editable:hover{outline-color:#7bafdd;background:rgba(123,175,221,.12)}
 body.editing #cms-feature-photo{cursor:pointer}
+
+#loginModal{position:fixed;inset:0;background:rgba(64,64,64,.45);z-index:90;display:grid;place-items:center;padding:1rem}
+.login-card{width:min(380px,100%);background:#fff;border-radius:18px;padding:1.2rem;color:#404040}
+.login-card h2{margin:.1rem 0 .3rem;font-family:var(--serif)}
+.login-card p{color:#7a8fac;margin:.2rem 0 .6rem}
+.login-card label{display:block;font-weight:700;margin:.6rem 0 .25rem}
+.login-card input{width:100%;border:0;background:#f3f3f3;border-radius:12px;padding:.75rem;font:500 1rem Outfit,sans-serif}
+.login-actions{display:flex;gap:.5rem;margin-top:1rem}
+.login-actions button{border:0;border-radius:999px;padding:.7rem 1rem;font-weight:700;cursor:pointer}
+#loginGo{background:#7bafdd;color:#fff}
+#loginClose{background:#eee;color:#404040}
+#loginError{color:#a33;font-size:.85rem}
