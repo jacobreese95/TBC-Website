@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Website | Temple Baptist Church</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue:#7bafdd; --slate:#7a8fac; --ink:#404040; --bg:#f3f3f3; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--ink); }
+    .wrap { width:min(760px, calc(100% - 2rem)); margin:2rem auto 4rem; }
+    h1 { margin:0 0 .3rem; }
+    p { color:var(--slate); }
+    .card { background:#fff; border-radius:18px; padding:1.2rem; margin:1rem 0; box-shadow:0 10px 30px rgba(64,64,64,.08); }
+    label { display:block; font-weight:700; margin: .8rem 0 .3rem; }
+    input, textarea { width:100%; border:0; background:#f3f3f3; border-radius:12px; padding:.8rem; font:500 1rem Outfit,sans-serif; }
+    textarea { min-height:78px; }
+    button { border:0; background:var(--blue); color:#fff; border-radius:999px; padding:.85rem 1.2rem; font-weight:700; cursor:pointer; }
+    .row { display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; }
+    .hidden { display:none; }
+    img.preview { width:100%; max-height:240px; object-fit:cover; border-radius:14px; margin-top:.6rem; }
+    .msg { margin-top:.8rem; font-weight:650; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Edit the website</h1>
+    <p>Log in with the same email and password you use for the church app.</p>
+    <div id="login" class="card">
+      <label>Email</label>
+      <input id="email" type="email" autocomplete="username">
+      <label>Password</label>
+      <input id="password" type="password" autocomplete="current-password">
+      <div class="row" style="margin-top:1rem"><button id="loginBtn">Log in</button></div>
+      <p id="loginMsg" class="msg"></p>
+    </div>
+    <div id="editor" class="hidden">
+      <div class="card">
+        <div class="row"><strong id="who"></strong><button id="logoutBtn" type="button">Log out</button></div>
+      </div>
+      <div class="card">
+        <h2>Side photo</h2>
+        <input id="photo" type="file" accept="image/*">
+        <img id="photoPreview" class="preview" alt="">
+      </div>
+      <div class="card" id="fields"></div>
+      <button id="saveBtn">Save changes</button>
+      <p id="saveMsg" class="msg"></p>
+    </div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyChN8xvRz0R2Zo6NUEeHRBHib2XoxVb4nE",
+      authDomain: "tbc-app-60125.firebaseapp.com",
+      projectId: "tbc-app-60125",
+      storageBucket: "tbc-app-60125.firebasestorage.app",
+      messagingSenderId: "813699285807",
+      appId: "1:813699285807:web:50216bcc58355a49ca97da"
+    });
+    var auth = firebase.auth();
+    var db = firebase.firestore();
+    var fields = [
+      ["feature1Title","Bible Preaching title"],["feature1Text","Bible Preaching words"],
+      ["feature2Title","Family Ministries title"],["feature2Text","Family Ministries words"],
+      ["feature3Title","Christian School title"],["feature3Text","Christian School words"],
+      ["feature4Title","Outreach title"],["feature4Text","Outreach words"],
+      ["step1Title","Step 1 title"],["step1Text","Step 1 words"],
+      ["step2Title","Step 2 title"],["step2Text","Step 2 words"],
+      ["step3Title","Step 3 title"],["step3Text","Step 3 words"],
+      ["step4Title","Step 4 title"],["step4Text","Step 4 words"]
+    ];
+    var data = {};
+    function renderFields() {
+      var box = document.getElementById("fields");
+      box.innerHTML = "<h2>Words</h2>";
+      fields.forEach(function (f) {
+        var label = document.createElement("label");
+        label.textContent = f[1];
+        var input = f[0].indexOf("Text") > -1 ? document.createElement("textarea") : document.createElement("input");
+        input.id = f[0];
+        input.value = data[f[0]] || "";
+        box.appendChild(label);
+        box.appendChild(input);
+      });
+      var img = document.getElementById("photoPreview");
+      if (data.featurePhoto) { img.src = data.featurePhoto; img.style.display = "block"; }
+    }
+    function load() {
+      return db.collection("website").doc("home").get().then(function (doc) {
+        data = doc.exists ? doc.data() : {};
+        return fetch("content.json").then(function (r) { return r.json(); }).then(function (base) {
+          Object.keys(base).forEach(function (k) { if (!data[k]) data[k] = base[k]; });
+          renderFields();
+        });
+      }).catch(function () {
+        return fetch("content.json").then(function (r) { return r.json(); }).then(function (base) { data = base; renderFields(); });
+      });
+    }
+    document.getElementById("loginBtn").onclick = function () {
+      auth.signInWithEmailAndPassword(document.getElementById("email").value.trim(), document.getElementById("password").value)
+        .catch(function (e) { document.getElementById("loginMsg").textContent = e.message; });
+    };
+    document.getElementById("logoutBtn").onclick = function () { auth.signOut(); };
+    document.getElementById("photo").onchange = function (e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var canvas = document.createElement("canvas");
+          var scale = Math.min(1, 1200 / img.width);
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+          data.featurePhoto = canvas.toDataURL("image/jpeg", 0.72);
+          document.getElementById("photoPreview").src = data.featurePhoto;
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    document.getElementById("saveBtn").onclick = function () {
+      fields.forEach(function (f) { data[f[0]] = document.getElementById(f[0]).value; });
+      db.collection("website").doc("home").set(data).then(function () {
+        document.getElementById("saveMsg").textContent = "Saved. Refresh the homepage to see it.";
+      }).catch(function (e) {
+        document.getElementById("saveMsg").textContent = "Could not save yet: " + e.message;
+      });
+    };
+    auth.onAuthStateChanged(function (user) {
+      document.getElementById("login").classList.toggle("hidden", !!user);
+      document.getElementById("editor").classList.toggle("hidden", !user);
+      if (user) { document.getElementById("who").textContent = user.email; load(); }
+    });
+  </script>
+</body>
+</html>
